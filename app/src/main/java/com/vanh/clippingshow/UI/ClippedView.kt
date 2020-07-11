@@ -54,7 +54,7 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
         drawRoundedRectangleClippingExample(canvas)
         drawOutsideClippingExample(canvas)
         drawSkewedTextExample(canvas)
-//        drawTranslatedTextExample(canvas)
+        drawTranslatedTextExample(canvas)
         // drawQuickRejectExample(canvas)
     }
     private fun drawClippedRectangle(canvas: Canvas) {
@@ -72,22 +72,32 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
 )
     }
 
-    private fun drawTranslatedTextExample(canvas: Canvas?) {
-        TODO("Not yet implemented")
+    private fun drawTranslatedTextExample(canvas: Canvas) {
+
+        canvas.save()
+        paint.color = Color.GREEN
+        // Align the RIGHT side of the text with the origin.
+        paint.textAlign = Paint.Align.LEFT
+        // Apply transformation to canvas.
+        canvas.translate(columnTwo,textRow)
+        // Draw text.
+        canvas.drawText(context.getString(R.string.translated),
+            clipRectLeft,clipRectTop,paint)
+        canvas.restore()
     }
 
     private fun drawSkewedTextExample(canvas: Canvas) {
-
            canvas.save()
-           paint.color = Color.GREEN
-           // Align the RIGHT side of the text with the origin.
-           paint.textAlign = Paint.Align.LEFT
-           // Apply transformation to canvas.
-           canvas.translate(columnTwo,textRow)
-           // Draw text.
-           canvas.drawText(context.getString(R.string.translated),
-               clipRectLeft,clipRectTop,paint)
+           paint.color = Color.YELLOW
+           paint.textAlign = Paint.Align.RIGHT
+           // Position text.
+           canvas.translate(columnTwo, textRow)
+           // Apply skew transformation.
+           canvas.skew(0.2f, 0.3f)
+           canvas.drawText(context.getString(R.string.skewed),
+               clipRectLeft, clipRectTop, paint)
            canvas.restore()
+
     }
 
     private fun drawOutsideClippingExample(canvas: Canvas) {
