@@ -52,7 +52,7 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
         drawIntersectionClippingExample(canvas)
         drawCombinedClippingExample(canvas)
         drawRoundedRectangleClippingExample(canvas)
-//        drawOutsideClippingExample(canvas)
+        drawOutsideClippingExample(canvas)
 //        drawSkewedTextExample(canvas)
 //        drawTranslatedTextExample(canvas)
         // drawQuickRejectExample(canvas)
@@ -80,8 +80,14 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
         TODO("Not yet implemented")
     }
 
-    private fun drawOutsideClippingExample(canvas: Canvas?) {
-        TODO("Not yet implemented")
+    private fun drawOutsideClippingExample(canvas: Canvas) {
+           canvas.save()
+           canvas.translate(columnOne,rowFour)
+           canvas.clipRect(2 * rectInset,2 * rectInset,
+               clipRectRight - 2 * rectInset,
+               clipRectBottom - 2 * rectInset)
+           drawClippedRectangle(canvas)
+           canvas.restore()
     }
 
     private fun drawRoundedRectangleClippingExample(canvas: Canvas) {
