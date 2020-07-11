@@ -38,6 +38,9 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
     private val rowFour = rowThree + rectInset + clipRectBottom
     private val textRow = rowFour + (1.5f * clipRectBottom)
 
+    private var rectF = RectF(rectInset, rectInset,
+                            clipRectRight - rectInset,
+                            clipRectBottom - rectInset )
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -48,7 +51,7 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
         drawCircularClippingExample(canvas)
         drawIntersectionClippingExample(canvas)
         drawCombinedClippingExample(canvas)
-//        drawRoundedRectangleClippingExample(canvas)
+        drawRoundedRectangleClippingExample(canvas)
 //        drawOutsideClippingExample(canvas)
 //        drawSkewedTextExample(canvas)
 //        drawTranslatedTextExample(canvas)
@@ -81,8 +84,17 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
         TODO("Not yet implemented")
     }
 
-    private fun drawRoundedRectangleClippingExample(canvas: Canvas?) {
-        TODO("Not yet implemented")
+    private fun drawRoundedRectangleClippingExample(canvas: Canvas) {
+           canvas.save()
+           canvas.translate(columnTwo,rowThree)
+           path.rewind()
+           path.addRoundRect(
+               rectF,clipRectRight / 4,
+               clipRectRight / 4, Path.Direction.CCW
+           )
+           canvas.clipPath(path)
+           drawClippedRectangle(canvas)
+           canvas.restore()
     }
 
     private fun drawCombinedClippingExample(canvas: Canvas) {
