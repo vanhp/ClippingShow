@@ -46,7 +46,7 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
         drawBackAndUnclippedRectangle(canvas)
         drawDifferenceClippingExample(canvas)
         drawCircularClippingExample(canvas)
-//        drawIntersectionClippingExample(canvas)
+        drawIntersectionClippingExample(canvas)
 //        drawCombinedClippingExample(canvas)
 //        drawRoundedRectangleClippingExample(canvas)
 //        drawOutsideClippingExample(canvas)
@@ -89,8 +89,34 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
         TODO("Not yet implemented")
     }
 
-    private fun drawIntersectionClippingExample(canvas: Canvas?) {
-
+    private fun drawIntersectionClippingExample(canvas: Canvas) {
+       canvas.save()
+       canvas.translate(columnTwo,rowTwo)
+       canvas.clipRect(
+           clipRectLeft,clipRectTop,
+           clipRectRight - smallRectOffset,
+           clipRectBottom - smallRectOffset
+       )
+       // The method clipRect(float, float, float, float, Region.Op
+       // .INTERSECT) was deprecated in API level 26. The recommended
+       // alternative method is clipRect(float, float, float, float), which
+       // is currently available in API level 26 and higher.
+       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+           canvas.clipRect(
+               clipRectLeft + smallRectOffset,
+               clipRectTop + smallRectOffset,
+               clipRectRight,clipRectBottom,
+               Region.Op.INTERSECT
+           )
+       } else {
+           canvas.clipRect(
+               clipRectLeft + smallRectOffset,
+               clipRectTop + smallRectOffset,
+               clipRectRight,clipRectBottom
+           )
+       }
+       drawClippedRectangle(canvas)
+       canvas.restore()
     }
 
     private fun drawCircularClippingExample(canvas: Canvas) {
