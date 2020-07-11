@@ -53,7 +53,7 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
         drawCombinedClippingExample(canvas)
         drawRoundedRectangleClippingExample(canvas)
         drawOutsideClippingExample(canvas)
-//        drawSkewedTextExample(canvas)
+        drawSkewedTextExample(canvas)
 //        drawTranslatedTextExample(canvas)
         // drawQuickRejectExample(canvas)
     }
@@ -76,8 +76,18 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
         TODO("Not yet implemented")
     }
 
-    private fun drawSkewedTextExample(canvas: Canvas?) {
-        TODO("Not yet implemented")
+    private fun drawSkewedTextExample(canvas: Canvas) {
+
+           canvas.save()
+           paint.color = Color.GREEN
+           // Align the RIGHT side of the text with the origin.
+           paint.textAlign = Paint.Align.LEFT
+           // Apply transformation to canvas.
+           canvas.translate(columnTwo,textRow)
+           // Draw text.
+           canvas.drawText(context.getString(R.string.translated),
+               clipRectLeft,clipRectTop,paint)
+           canvas.restore()
     }
 
     private fun drawOutsideClippingExample(canvas: Canvas) {
