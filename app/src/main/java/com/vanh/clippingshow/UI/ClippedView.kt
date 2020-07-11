@@ -42,6 +42,9 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
                             clipRectRight - rectInset,
                             clipRectBottom - rectInset )
 
+    private val rejectRow = rowFour + rectInset + 2*clipRectBottom
+
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -55,8 +58,47 @@ class ClippedView @JvmOverloads constructor(context: Context,attrs:AttributeSet?
         drawOutsideClippingExample(canvas)
         drawSkewedTextExample(canvas)
         drawTranslatedTextExample(canvas)
-        // drawQuickRejectExample(canvas)
+        drawQuickRejectExample(canvas)
     }
+
+    private fun drawQuickRejectExample(canvas: Canvas) {
+    // The quickReject() method allows you to check whether a specified rectangle or
+    // path would lie completely outside the currently visible regions,
+    // after all transformations have been applied.
+    //The quickReject() method is incredibly useful when you are constructing
+    // more complex drawings and need to do so as fast as possible. With quickReject(),
+    // you can decide efficiently which objects you do not have to draw at all,
+    // and there is no need to write your own intersection logic.
+    //    The quickReject() method returns true if the rectangle or path would not be
+    //    visible at all on the screen. For partial overlaps, you still have to do your own checking.
+    //    The EdgeType is either AA (Antialiased: Treat edges by rounding-out,
+    //    because they may be antialiased) or BW (Black-White: Treat edges by just
+    //    rounding to nearest pixel boundary) for just rounding to the nearest pixel.
+    //There are several versions of quickReject(), and you can also find them in the documentation.
+
+        // part of the rectangle is visible quick reject return true
+         val inClipRectangle = RectF(clipRectRight / 2,
+               clipRectBottom / 2,
+               clipRectRight * 2,
+               clipRectBottom * 2)
+
+          // the rectangle is completely invincible quick reject return false
+           val notInClipRectangle = RectF(RectF(clipRectRight+1,
+               clipRectBottom+1,
+               clipRectRight * 2,
+               clipRectBottom * 2))
+
+           canvas.save()
+           canvas.translate(columnOne, rejectRow)
+           canvas.clipRect(clipRectLeft,clipRectTop, clipRectRight,clipRectBottom)
+           if (canvas.quickReject(inClipRectangle, Canvas.EdgeType.AA)) canvas.drawColor(Color.WHITE)
+           else {
+               canvas.drawColor(Color.BLACK)
+               canvas.drawRect(inClipRectangle, paint)
+           }
+           canvas.restore()
+    }
+
     private fun drawClippedRectangle(canvas: Canvas) {
         canvas.clipRect(clipRectLeft,clipRectTop, clipRectRight,clipRectBottom)
         canvas.drawColor(Color.WHITE)
